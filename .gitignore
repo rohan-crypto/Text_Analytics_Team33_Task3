@@ -34,3 +34,7 @@ dist/
 # Temporary files
 *.tmp
 *.swp
+
+# make sure .gitignore has this
+*.pkl
+*.npy

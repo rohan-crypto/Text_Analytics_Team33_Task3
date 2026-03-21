@@ -8,7 +8,7 @@ def load_arxiv_data():
     df = ds.to_pandas()
     
     # Filter for AI/ML/NLP
-    target_cats = {"cs.AI", "cs.LG", "cs.CL", "cs.NE", "stat.ML"} # we only want AI/ML/NLP papers, so we filter by category
+    target_cats = {"cs.AI", "cs.LG", "cs.CL"} # we only want AI/ML/NLP papers, so we filter by category
     df = df[df["categories"].apply(lambda cats: bool(set(cats) & target_cats))].copy()
     
     # arXiv IDs encode the submission date e.g. 0704.0001 = April 2007, 1512.03385 = December 2015. 
