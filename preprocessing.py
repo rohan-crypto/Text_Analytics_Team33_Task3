@@ -93,8 +93,8 @@ def clean_dataframe(df):
 def basic_cleaning(text):
     text = text.lower() # convert text to lowercase
     text = re.sub(r"\$.*?\$", " ", text) # remove LaTeX math expressions (anything between $...$)
-    text = re.sub(r"http?\S+|www\S+", " ", text) # remove URLs (anything starting with http://, https://, or www.)
-    text = re.sub(r"[^a-z\s]", " ", text) # remove non-alphabetic characters (keep only letters and whitespace)
+    text = re.sub(r"http\S+|www\S+", " ", text) # remove URLs (anything starting with http://, https://, or www.)
+    text = re.sub(r"[^a-z0-9\s\-]", " ", text) # remove non-alphabetic characters (keep only letters, numbers and hyphens)
     text = re.sub(r"\s+", " ", text).strip() # remove extra spaces and trim leading/trailing whitespace
 
     return text
@@ -102,7 +102,7 @@ def basic_cleaning(text):
 # This function will lemmatize and remove stopwords from the abstracts.
 def advanced_cleaning(text):
     doc = nlp(text) # process the text with spaCy to create a Doc object
-    tokens = [token.lemma_ for token in doc if token.text not in STOPWORDS and len(token.text) > 2 and not token.is_space] # lemmatize tokens and filter out stopwords, short tokens (<=2 characters), and whitespace tokens
+    tokens = [token.text.lower() for token in doc if token.text.lower() not in STOPWORDS and len(token.text) > 2 and not token.is_space] # lemmatize tokens and filter out stopwords, short tokens (<=2 characters), and whitespace tokens
     return " ".join(tokens) # join the cleaned tokens back into a single string
 
 # This function will run the entire preprocessing pipeline on the abstracts in the DataFrame.
@@ -164,7 +164,7 @@ if __name__ == "__main__":
         elif year < 2020:
             return "2015-2019"
         else:
-            return "2020-2024"
+            return "2020-2025"
     
     df["period"] = df["year"].apply(assign_period) # create a new column "period" by applying the assign_period function to the "year" column
     print(f"\nPapers per period:\n{df['period'].value_counts().sort_index()}") # prints the number of papers in each time period, sorted by period
