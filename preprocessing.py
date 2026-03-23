@@ -135,30 +135,36 @@ if __name__ == "__main__":
     texts = df["abstract"].tolist() # convert the "abstract" column to a list of strings for processing
     cleaned = []
 
-    for doc in tqdm(nlp.pipe(texts, batch_size=64), total=len(texts)):
-        tokens = [token.lemma_.lower()
-                  for token in doc
-                  if token.text.lower() not in STOPWORDS
-                  and len(token.text) > 2
-                  and not token.is_space
-                ]    
+    texts_cleaned = [basic_cleaning(text) for text in texts] # first we will apply basic cleaning to all abstracts in a list comprehension for faster processing
+
+    # Then we apply spaCy for batch processing for lemmatization and stopword removal
+    for doc in tqdm(nlp.pipe(texts_cleaned, batch_size=64), total=len(texts_cleaned)):
+        tokens = [
+                    token.lemma_.lower()
+                    for token in doc
+                    if token.text.lower() not in STOPWORDS
+                    and len(token.text) > 2
+                    and not token.is_space
+                ]
         cleaned.append(" ".join(tokens)) # join the cleaned tokens back into a single string and add to the cleaned list
     
     df["cleaned_abstract"] = cleaned # add the cleaned abstracts as a new column in the DataFrame
 
     # Assign time periods
-    # Using uneven windows to capture key shifts in AI/ML/NLP history
+    # Using even 5-year windows to capture key shifts in AI/ML/NLP history
     def assign_period(year):
-        if year < 2013:
-            return "pre-2013"      # early sparse years grouped together
-        elif year < 2016:
-            return "2013-2015"     # deep learning takes off (ImageNet 2012)
-        elif year < 2018:
-            return "2016-2017"     # attention mechanisms emerge
+        if year < 2000:
+            return "pre-2000"
+        elif year < 2005:
+            return "2000-2004"
+        elif year < 2010:
+            return "2005-2009"
+        elif year < 2015:
+            return "2010-2014"
         elif year < 2020:
-            return "2018-2019"     # BERT, GPT-2 era
+            return "2015-2019"
         else:
-            return "2020-2021"     # LLM boom
+            return "2020-2024"
     
     df["period"] = df["year"].apply(assign_period) # create a new column "period" by applying the assign_period function to the "year" column
     print(f"\nPapers per period:\n{df['period'].value_counts().sort_index()}") # prints the number of papers in each time period, sorted by period
@@ -167,9 +173,6 @@ if __name__ == "__main__":
     print("\nSample before:")
     print(df["abstract"].iloc[0][:200]) # print the first 200 characters of the original abstract of the first paper
 
-    # Just a sample check to see how the cleaned abstracts look like
-    print("\nSample before:")
-    print(df["abstract"].iloc[0][:200]) # print the first 200 characters of the original abstract of the first paper
     print("\nSample after:")
     print(df["cleaned_abstract"].iloc[0][:200]) # print the first 200 characters of the cleaned abstract of the first paper
 
