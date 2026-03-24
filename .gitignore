@@ -28,8 +28,6 @@ build/
 dist/
 *.egg-info/
 
-# Figures (optional: ignore generated plots if not needed in repo)
-# figures/
 
 # Temporary files
 *.tmp
