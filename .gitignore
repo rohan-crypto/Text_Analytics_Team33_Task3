@@ -14,7 +14,7 @@ env/
 # VS Code settings
 .vscode/
 
-# Mac system files
+# System files
 .DS_Store
 
 # Logs
@@ -28,13 +28,13 @@ build/
 dist/
 *.egg-info/
 
-# Figures (optional: ignore generated plots if not needed in repo)
-# figures/
 
 # Temporary files
 *.tmp
 *.swp
 
-# make sure .gitignore has this
+
 *.pkl
 *.npy
+
+*.csv
