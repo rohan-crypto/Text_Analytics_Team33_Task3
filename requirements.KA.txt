@@ -1,0 +1,8 @@
+nltk
+numpy
+networkx
+pandas
+joblib
+tqdm
+pyarrow
+scipy
