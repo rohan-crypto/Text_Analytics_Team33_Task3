@@ -6,3 +6,5 @@ joblib
 tqdm
 pyarrow
 scipy
+pandas
+matplotlib
