@@ -153,18 +153,12 @@ if __name__ == "__main__":
     # Assign time periods
     # Using even 5-year windows to capture key shifts in AI/ML/NLP history
     def assign_period(year):
-        if year < 2000:
-            return "pre-2000"
-        elif year < 2005:
-            return "2000-2004"
-        elif year < 2010:
-            return "2005-2009"
-        elif year < 2015:
-            return "2010-2014"
-        elif year < 2020:
-            return "2015-2019"
+        if year >= 2007 and year < 2012:
+            return "2007-2011"
+        elif year >= 2012 and year < 2017:
+            return "2012-2016"
         else:
-            return "2020-2025"
+            return "2017-2021"
     
     df["period"] = df["year"].apply(assign_period) # create a new column "period" by applying the assign_period function to the "year" column
     print(f"\nPapers per period:\n{df['period'].value_counts().sort_index()}") # prints the number of papers in each time period, sorted by period
