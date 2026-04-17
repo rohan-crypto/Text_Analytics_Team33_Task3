@@ -1,0 +1,31 @@
+year_bin,keyphrases,count
+2007–2011,svm,6
+2007–2011,reproducing kernel hilbert space,4
+2007–2011,hilbert space,2
+2007–2011,svm classifier,2
+2007–2011,c-svm,1
+2007–2011,decomposition svm,1
+2007–2011,general hilbert space,1
+2007–2011,general scaled svm,1
+2007–2011,gs-svm,1
+2007–2011,hard margin pattern recognition svm,1
+2012–2016,svm,19
+2012–2016,rnn,18
+2012–2016,attention mechanism,13
+2012–2016,cnn,5
+2012–2016,reproducing kernel hilbert space,4
+2012–2016,dcnn,3
+2012–2016,hilbert space,3
+2012–2016,backpropagation,2
+2012–2016,blstm-rnn,2
+2012–2016,deep cnn,2
+2017–2021,bert,187
+2017–2021,rnn,76
+2017–2021,transformer,73
+2017–2021,cnn,70
+2017–2021,attention mechanism,69
+2017–2021,multilingual bert,24
+2017–2021,transformer architecture,21
+2017–2021,mbert,16
+2017–2021,svm,16
+2017–2021,self-attention mechanism,13
