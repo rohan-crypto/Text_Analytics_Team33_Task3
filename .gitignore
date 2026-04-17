@@ -36,5 +36,3 @@ dist/
 
 *.pkl
 *.npy
-
-*.csv
