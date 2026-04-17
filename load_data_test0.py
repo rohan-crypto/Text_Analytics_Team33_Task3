@@ -3,7 +3,7 @@ import pandas as pd
 import re
 
 def load_arxiv_data(sample_n=2000, random_state=42):
-    target_cats = {"cs.AI", "cs.LG", "cs.CL", "cs.NE", "stat.ML"}
+    target_cats = {"cs.AI", "cs.LG", "cs.CL"}
 
     def extract_year(arxiv_id):
         match = re.match(r"(\d{2})(\d{2})\.", str(arxiv_id))
