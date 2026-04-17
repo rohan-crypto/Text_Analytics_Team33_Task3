@@ -34,3 +34,5 @@ if __name__ == "__main__":
     print(f"Years: {df['year'].min()} to {df['year'].max()}")
     print(f"Columns: {df.columns.tolist()}")
     print(df.head(3))
+    
+    
