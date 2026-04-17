@@ -20,17 +20,17 @@ We hypothesise that lexical methods (TF-IDF/LDA) will be highly sensitive to the
 
 
 
-\## Data Processing (Text Preprocessing \& Period Splitting)
+## Data Processing (Text Preprocessing \& Period Splitting)
 
 
 
 Before applying our text representation models, we constructed a robust data pipeline to clean and standardise the corpus:
 
-\* \*\*Corpus Loading \& Splitting\*\*: We loaded the dataset and partitioned it into three distinct temporal periods (2007-2011, 2012-2016, 2017-2021) based on the publication year.
+* **Corpus Loading \& Splitting**: We loaded the dataset and partitioned it into three distinct temporal periods (2007-2011, 2012-2016, 2017-2021) based on the publication year.
 
-\* \*\*Tokenisation \& Cleaning\*\*: The abstract of each paper was converted to lowercase. We removed punctuation, numbers, and standard English stop words to reduce noise.
+* **Tokenisation \& Cleaning**: The abstract of each paper was converted to lowercase. We removed punctuation, numbers, and standard English stop words to reduce noise.
 
-\* \*\*Standardisation\*\*: We applied lemmatisation to ensure different forms of the same word (e.g., 'networks' and 'network') were treated identically.
+* **Standardisation**: We applied lemmatisation to ensure different forms of the same word (e.g., 'networks' and 'network') were treated identically.
 
 
 
