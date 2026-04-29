@@ -228,6 +228,24 @@ IMPORTANT, please:
 \item {\bf Conclusions}
     \item[] We analysed trends over time in the abstracts of research on AI/ML/NLP across three different periods (2007–2011, 2012–2016, and 2017–2021) to understand the evolution of the field. Using a two-dimensional analytical framework, we compared text representation methods (first axis) with methodological extraction methods (second axis). Finally, our aim is to investigate how these choices of representation and methodology influence perceptions of shifts in academic paradigm.
     
+    The results we derived from Axis 1 partially confirmed our initial hypothesis about lexical sensitivity and semantic sensitivity. As predicted, compared to the relatively smooth trajectory seen with SBERT (0.1245), TF-IDF detected a more significant centroid distance between neighbouring periods (peaking at 0.2889 between 2012–2016 and 2017–2021), demonstrating TF-IDF's high sensitivity to the sudden introduction of new vocabulary. However, the profile scores for both TF-IDF (0.0015) and SBERT (0.24) were close to 0. THis suggests that, although the vocabulary changed between periods, individual abstracts showed high diversity during the same period and could not be clearly classified by time. This reflects the continues evolution of concepts rather than distinct ,unrelated periods.
+
+    For Axis 2, the comparison between descriptive and discriminative methods confirmed our hypothesis: the period-specific classifiers can provide more period-specific insights. While TextRank revealed generalities that remained highly constant across different periods, such as 'learning' and 'neural,' our logistic regression classifier successfully identified highly comparative features.
+    In summary, the classifier identified terms such as transformer, pre-trained and large language as key positive features. These feature were the primary drivers of classification between 2017 and 2021. However, these terms did not appear in the common top level keywords of TextRank. This finding is further corroborated by our framework’s heatmap, which visually captures the distinct paradigm shift towards applications and extended architectures observed in the final period.
+
+    Although these findings were observed, the experimental process revealed several methodological limitations. Most significantly, LDA topic modelling suffers from severe topic instability and high sensitive to the parameter k. This makes it challenging to identify coherent historical themes, even after optimising the coherence score.Further, the sustained low profile coefficients observed across all models highlight a fundamental limitation:Within AI datasets, the temporal assignment of data is not a primary source of variation. Instead, inherent differences across subfields such as NLP and computer vision tend to dominate pure temporal drift effects, which in turn obscure clear temporal boundaries.
+
+    Several challenges remain in studying the evolution of this field. Firstly, although our findings suggest a significant shift after 2017, our methodology cannot explain why this shift occurred. It is unclear whether this change was driven by a few influential papers or represents a broader trend across the research community. Secondly, analysing abstracts alone has its limitations. Authors often write abstracts with the aim of attracting readers. Therefore, abstracts may not fully reflect the methods actually employed in the full text. Finally, splitting the timeline into three five‑year periods is somewhat arbitrary.Analyzing the data year by year may provide a more accurate picture of the exact moment when new trends emerge.
+
+    As research into AI accelerates, automated tools for tracking the evolution of concepts and vocabulary will become increasingly important for scholars who need to conduct research in the fast-expanding literature.
+    
+
+
+    
+
+    
+    
+    
     \item[] Guidelines:
     \begin{itemize}
         \item The answer \answerNA{} means that the paper does not involve crowdsourcing nor research with human subjects.
