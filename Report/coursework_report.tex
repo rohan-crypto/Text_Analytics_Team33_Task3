@@ -18,14 +18,13 @@
 \title{How Has AI Research Changed? A Comparative Corpus Analysis of ArXiv Abstracts from 2007 to 2021}
 
 \author{%
-  Nithya [SURNAME] \And
-  Rohan Bhardwaj \And
-  Clarence [SURNAME] \And
-  Shu [SURNAME] \And
-  Chen [SURNAME] \\[4pt]
+  Nithya Dharshini Uthayasankar \And
+  Rohan Bhardwaj \\ 2827658\And
+  Clarence Zhen Jin Tan\And
+  Lingjuan Shu \And
+  Taojie Chen \\[4pt]
   Department of Data Science,
-  University of Bristol \\
-  \texttt{\{[student IDs or emails]\}@bristol.ac.uk}
+  University of Bristol
 }
 
 \begin{document}
@@ -37,26 +36,12 @@ ABSTRACT
 
 \section{Introduction}
 Research in machine learning (ML), natural language processing(NLP) and artificial intelligence (AI) have been changing rapidly in recent years due to frequent changes in the methods, terminology and research focus. Hence, new theories, methods and vocabulary were extended when certain topics became prominent within a few years.
-
-This makes AI-related scientific literature a useful source for analysis especially with scientific abstracts since it would summarise the research papers.  Besides, abstracts would highlight their overall contributions which means analysing abstracts can help the academia to know where the research attention and scientific problems have been changed over time.
-
+This makes AI-related scientific literature a useful source for analysis especially with scientific abstracts since it would summarise the research papers. Besides, abstracts would highlight their overall contributions which means analysing abstracts can help the academia to know where the research attention and scientific problems have been changed over time.
 To efficiently analyse the scientific abstracts, this project has employed comparative corpus analysis so that changes in vocabulary, dominant methods, and research contributions can be efficiently examined over time. Firstly, datasets related to ML, NLP and AI have been obtained from the HuggingFace arXiv abstracts dataset which contains useful metadata like abstracts and publication years \cite{huggingfaceGfissorearxivabstracts2021Datasets}.
-
 The corpus contains 27121 abstracts and has been carried for preprocessing to better compare the changes in research across the different periods, whereby the corpus has been divided into three five-year periods since research in artificial intelligence only surged especially after 2010 \cite{cao2026decreasing}.
-
 The period 2007-2011 contains 1,268 abstracts , the period 2012-2016 contains 5,542 abstracts, and the period 2017-2021 contains 20311 abstracts. This grouping allows the early, middle, and more recent stages of development in research related to AI to be compared.
-
 The Initial analysis of the dataset reveals frequencies of terms associated with AI increases over time. For instance, as later shown in Figure~\ref{fig:lda_topics} it reveals that the abstracts with terms associated with optimisation, probabilistic modelling and statistical approaches in pre-2017 while post-2017 shows an increase in abstracts with terms associated with neural-based, language-based, and learning-based approaches. Hence, this analysis concludes how the research areas in AI have been shifted over the years and how the abstracts in later periods have reflected the rise of deep learning and language-based methods \cite{feng2024evolution}. 
-
-% \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=1\linewidth]{Report/figures/axis1_lda_topic_distribution.png}
-%     \caption{LDA topic distribution across the three five-year periods.}
-%     \label{fig:intro_lda}
-% \end{figure}
-
-The aim of this project would be to use abstracts as evidence to determine how research related to AI has changed the topic focus and communication over time. The analysis investigates how research attention, scientific problems and terminologies shifted across the three periods. Instead of treating change based on increase or decrease in the term frequency, the project determines if the abstracts have shown significant change in terms of methods, topics and contributions being emphasised by the researchers. Hence, shifts in research topics and scientific problems can be compared across the period to show how AL, ML and NLP have evolved from 2007 to 2021.
-
+The aim of this project would be to use abstracts as evidence to determine how research related to AI has changed the topic focus and communication over time. The analysis investigates how research attention, scientific problems and terminologies shifted across the three periods. Instead of treating change based on increase or decrease in the term frequency, the project determines if the abstracts have shown significant change in terms of methods, topics and contributions being emphasised by the researchers. Hence, shifts in research topics and scientific problems can be compared across the period to show how AI, ML and NLP have evolved from 2007 to 2021.
 To address the aim, this project compares several text analytics approaches that provide different findings from the same corpus. For instance, prominent and terms in a specific period would be identified through vocabulary-based methods while abstracts from different periods would be examined through semantic and topic-based methods to determine if research focus has been different across the periods. The findings would then be evaluated and compared to assess whether the different methods would reveal insights with similar or different patterns of change. Overall, this project seeks to answer two research questions which is how did the topic focus and communication relating to AI, ML and NLP change between 2007 and 2021, and how do the different text analytics methods affect the insights derived from the same corpus?
 
 \section{Methods}
@@ -70,7 +55,7 @@ To address the aim, this project compares several text analytics approaches that
     \label{fig:pipeline}
 \end{figure}
 
-Our corpus comes from the \textsc{ArXiv} dataset \cite{arxiv_dataset}, which includes 27{,}121 abstracts of studies on artificial intelligence, machine learning, and natural language processing. We divided these abstracts into three non-overlapping groups based on when they were published: 2007-2011, 2012-2016, and 2017-2021. And these groups had abstracts of 1{,}268, 5{,}542 and 20{,}311 simultaneously. This clearly shows how quickly research is growing in this field, with more and more studies being published every year.
+Our corpus comes from the \textsc{ArXiv} dataset \cite{arxiv_dataset}, which includes 27{,}121 abstracts of studies on artificial intelligence, machine learning, and natural language processing. We divided these abstracts into three non-overlapping groups based on when they were published: 2007-2011, 2012-2016, and 2017-2021. And these groups had 1{,}268, 5{,}542 and 20{,}311 abstracts respectively. This clearly shows how quickly research is growing in this field, with more and more studies being published every year.
 
 \paragraph{Preprocessing}
 We preprocessed and cleaned the abstracts before representation. We made them lowercase, tokenised them into individual words and removed common stop-words like "the" and "and" because they do not add much meaning. We also got rid of the punctuation marks. For TF-IDF, we only looked at the 5{,}000 most important features using \texttt{TfidfVectorizer} from \texttt{sklearn}, with both unigram and bigram (n $\in \{1,2\}$). We did not apply stemming because the SBERT models, which we are using, are good at handling morphological variation. Instead, we worked directly with the original text to understand what each sentence means.
@@ -398,12 +383,12 @@ Classifier greatly outperforms TextRank in terms of period specificity. Its term
 \paragraph{Limitations}
 The corpus is restricted to English-language ArXiv abstracts, specifically in AI, ML, and NLP, so conclusions may not apply to other fields or other languages. Abstracts may not fully represent the deep methodologies and breadth of the source papers. Temporal windows are too wide, so the intra-period changes might be obscured. For example, 2017-2021 includes the Transformer era as well as the GPT-3 era, both having different characteristics.
 
-\section{Conclusions}
+\section{Conclusion}
 We analysed trends over time in the abstracts of research on AI, ML and NLP across three different periods (2007–2011, 2012–2016, and 2017–2021) to understand the evolution of the field. Using a two-dimensional analytical framework, we compared text representation methods (first axis) with methodological extraction methods (second axis). Finally, our aim is to investigate how these choices of representation and methodology influence perceptions of shifts in academic paradigm.
-The results we derived from Axis 1 partially confirmed our initial hypothesis about lexical sensitivity and semantic sensitivity. As predicted, compared to the relatively smooth trajectory seen with SBERT (0.1245), TF-IDF detected a more significant centroid distance between neighbouring periods (peaking at 0.2889 between 2012–2016 and 2017–2021), demonstrating TF-IDF's high sensitivity to the sudden introduction of new vocabulary. However, the profile scores for both TF-IDF (0.0015) and SBERT (0.24) were close to 0. THis suggests that, although the vocabulary changed between periods, individual abstracts showed high diversity during the same period and could not be clearly classified by time. This reflects the continues evolution of concepts rather than distinct ,unrelated periods.
+The results we derived from Axis 1 partially confirmed our initial hypothesis about lexical sensitivity and semantic sensitivity. As predicted, compared to the relatively smooth trajectory seen with SBERT (0.1245), TF-IDF detected a more significant centroid distance between neighbouring periods (peaking at 0.2889 between 2012–2016 and 2017–2021), demonstrating TF-IDF's high sensitivity to the sudden introduction of new vocabulary. However, the silhouette scores for both TF-IDF (0.0015) and SBERT (0.0559) were close to 0. This suggests that, although the vocabulary changed between periods, individual abstracts showed high diversity during the same period and could not be clearly classified by time. This reflects the continues evolution of concepts rather than distinct ,unrelated periods.
 For Axis 2, the comparison between descriptive and discriminative methods confirmed our hypothesis: the period-specific classifiers can provide more period-specific insights. While TextRank revealed generalities that remained highly constant across different periods, such as 'learning' and 'neural', our logistic regression classifier successfully identified highly comparative features.
-In summary, the classifier identified terms such as transformer, pre-trained and large language as key positive features. These feature were the primary drivers of classification between 2017 and 2021. However, these terms did not appear in the common top level keywords of TextRank. This finding is further corroborated by our framework’s heatmap, which visually captures the distinct paradigm shift towards applications and extended architectures observed in the final period.
-Although these findings were observed, the experimental process revealed several methodological limitations. Most significantly, LDA topic modelling suffers from severe topic instability and high sensitive to the parameter k. This makes it challenging to identify coherent historical themes, even after optimising the coherence score.Further, the sustained low profile coefficients observed across all models highlight a fundamental limitation:Within AI datasets, the temporal assignment of data is not a primary source of variation. Instead, inherent differences across subfields such as NLP and computer vision tend to dominate pure temporal drift effects, which in turn obscure clear temporal boundaries.
+In summary, the classifier identified terms such as pre-trained (+3.30), deep learning (+3.28), graph neural (+2.62) and federated learning (+2.55) as key positive features. These feature were the primary drivers of classification between 2017 and 2021. However, these terms did not appear in the common top level keywords of TextRank. This finding is further corroborated by our framework’s heatmap, which visually captures the distinct paradigm shift towards applications and extended architectures observed in the final period.
+Although these findings were observed, the experimental process revealed several methodological limitations. LDA Topic modelling is influenced by the value of $K$ and though we chose $K=12$ by perplexity, individual topic labels lack stability between different runs, as a limitation mentioned in our error analysis. Further, the sustained low profile coefficients observed across all models highlight a fundamental limitation:Within AI datasets, the temporal assignment of data is not a primary source of variation. Instead, inherent differences across subfields such as NLP and computer vision tend to dominate pure temporal drift effects, which in turn obscure clear temporal boundaries.
 Several challenges remain in studying the evolution of this field. Firstly, although our findings suggest a significant shift after 2017, our methodology cannot explain why this shift occurred. It is unclear whether this change was driven by a few influential papers or represents a broader trend across the research community. Secondly, analysing abstracts alone has its limitations. Authors often write abstracts with the aim of attracting readers. Therefore, abstracts may not fully reflect the methods actually employed in the full text. Finally, splitting the timeline into three five‑year periods is somewhat arbitrary.Analyzing the data year by year may provide a more accurate picture of the exact moment when new trends emerge.
 As research into AI accelerates, automated tools for tracking the evolution of concepts and vocabulary will become increasingly important for scholars who need to conduct research in the fast-expanding literature.
 
