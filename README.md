@@ -111,7 +111,7 @@ All figures are saved to `Report/figures/` automatically.
 
 The group report is written in LaTeX using the NeurIPS 2026 template.
 
-# If compiling locally:
+### If compiling locally:
 ```bash
 cd Report
 pdflatex coursework_report.tex
@@ -120,8 +120,8 @@ pdflatex coursework_report.tex
 pdflatex coursework_report.tex
 ``` 
 
-# If using Overleaf: open the project and click Recompile.
-# Main file is Report/coursework_report.tex
+### If using Overleaf: open the project and click Recompile.
+Main file is Report/coursework_report.tex
 
 ---
 
