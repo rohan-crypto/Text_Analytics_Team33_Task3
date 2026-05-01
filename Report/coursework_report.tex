@@ -154,7 +154,7 @@ SBERT Framing Heatmap             & Nithya   & 2      & CosDist to archetype \\
 We evaluated each method on three related performance metrics, because no definitive answer exists as the correct temporal change for an unsupervised corpus analysis.
 
 \paragraph{Centroid cosine distance:} 
-For TF-IDF and SBERT, we compute the cosine distance between centroids in consecutive periods. For LDA we look up in the pre-calculated pairwise distance matrix (\texttt{lda\_centroid\_dist[i][j]}) and extract the Euclidean distance between consecutive period centroids in 12-dimensional topic-proportion space. Larger distance implies more quantifiable change between periods. \emph{Limitation:} The raw value is only comparable between methods of the same type (both TF-IDF), as different embedding spaces will have different geometries. Centroid shift may not represent general drift but may be caused by a single outlying sub-corpus in a single period.
+For TF-IDF and SBERT, we compute the cosine distance between centroids in consecutive periods. For LDA we look up in the pre-calculated pairwise distance matrix (\texttt{lda\_centroid\_dist[i][j]}) and extract the Euclidean distance between consecutive period centroids in 12-dimensional topic-proportion space. Larger distance implies more quantifiable change between periods. Since distances are calculated in different representation spaces, the absolute values of distances are not directly comparable between methods.. \emph{Limitation:} The raw value is only comparable between methods of the same type (both TF-IDF), as different embedding spaces will have different geometries. Centroid shift may not represent general drift but may be caused by a single outlying sub-corpus in a single period.
 
 \paragraph{Silhouette score:}
 For each abstracted period, the silhouette score~\cite{rousseeuw1987silhouettes} measures how well each abstract fits its own period cluster when compared to the nearest alternative period. Values near $+1$ indicate well-separated clusters and very tight periods, $0$ implies overlapping clusters, and a negative value suggests that the abstract was fit to the incorrect period cluster. \emph{Limitation:} The score may be skewed if the clusters have an imbalance (the corpus is strongly dominated by 2017-2021, $n{=}20{,}311$) and it will score global separation over gradual change.
@@ -257,22 +257,20 @@ The large amount of overlap between individual clouds in both spaces confirms ou
     \label{fig:lda_change}
 \end{figure}
 
-The LDA topic model produces the strongest qualitative description of \emph{what} changed. The topics Figure~\ref{fig:lda_topics} of search/optimisation/optimal (T4) and inference/logic/probabilistic (T10), which dominated 2007--2011 largely disappeared by 2017-2021 (shown in Figure \ref{fig:lda_change}). This directly shows the decline of traditional AI technologies - constraint satisfaction, logic programming, and Bayesian networks, in favour of an end-to-end neural approach. The most prominent changes are the emergence of the neural/network/networks topic (T8), language/translation/languages topic (T9), and question/dialogue/generation topic (T6). T9's increased prominence is quite evident as it was driven by neural machine translation (2016) and the emergence of BERT (2018) and GPT-3 (2020) during or just prior to the 2017-2021 time period. These transitions in topic distribution are invisible to both TF-IDF and SBERT centroid analysis and highlight the unique benefit of LDA, as it identified \emph{what} changed rather than just \emph{how much} changed.
+The LDA topic model produces the strongest qualitative description of \emph{what} changed. The topics Figure~\ref{fig:lda_topics} of search/optimisation/optimal (T4) and inference/logic/probabilistic (T10), which dominated 2007--2011 largely disappeared by 2017-2021 (shown in Figure \ref{fig:lda_change}). This directly shows the decline of traditional AI technologies - constraint satisfaction, logic programming, and Bayesian networks, in favour of an end-to-end neural approach. The most prominent changes are the emergence of the neural/network/networks topic (T8), \\ language/translation/languages topic (T9), and question/dialogue/generation topic (T6). T9's increased prominence is quite evident as it was driven by neural machine translation (2016) and the emergence of BERT (2018) and GPT-3 (2020) during or just prior to the 2017-2021 time period. These transitions in topic distribution are invisible to both TF-IDF and SBERT centroid analysis and highlight the unique benefit of LDA, as it identified \emph{what} changed rather than just \emph{how much} changed.
 
 \subsubsection{Axis~2: TextRank vs.\ Period Classifier}
 
 \begin{figure}[ht]
     \centering
     \subfloat[2007--2011]{%
-        \includegraphics[width=0.90\linewidth]{figures/Axis2_comparison1.png}
-        \label{fig:axis2_2007}}
-    \hfill
+        \includegraphics[width=0.95\linewidth]{figures/Axis2_comparison1.png}
+        \label{fig:axis2_2007}}\\[4pt]
     \subfloat[2012--2016]{%
-        \includegraphics[width=0.90\linewidth]{figures/Axis2_comparison2.png}
-        \label{fig:axis2_2012}}
-    \hfill
+        \includegraphics[width=0.95\linewidth]{figures/Axis2_comparison2.png}
+        \label{fig:axis2_2012}}\\[4pt]
     \subfloat[2017--2021]{%
-        \includegraphics[width=0.90\linewidth]{figures/Axis2_comparison3.png}
+        \includegraphics[width=0.95\linewidth]{figures/Axis2_comparison3.png}
         \label{fig:axis2_2017}}
     \caption{Axis~2 comparison for all three periods. Left panel of each subfigure: TextRank top keyphrases. Right panel: logistic regression discriminative coefficients. Green bars = terms strongly predictive \emph{of} that period; red bars = terms strongly predictive \emph{against} it. The contrast between the two methods is most pronounced in 2017--2021, where the classifier uniquely identifies 
     "pre-trained" (+3.30), "graph neural" (+2.62), and "federated learning" (+2.55).}
@@ -281,7 +279,7 @@ The LDA topic model produces the strongest qualitative description of \emph{what
 
 TextRank identifies keyphrases that occur frequently and represent the domain, but does not differentiate \emph{contrastive} from \emph{prevalent}. The top 2017-2021 TextRank terms include natural language processing (416 times), neural network (270), and machine learning (166), and these appear at the top of the 2012-2016 list too. This supports our Axis-2 hypothesis as well, that TextRank reflects document frequency rather than period-relative frequency, and therefore cannot describe what makes a period distinct.
 
-Using TF-IDF features and training a logistic regression classifier produces discriminative outputs. For 2017-2021, the positive coefficients correspond to pre-trained (+3.30), deep learning (+3.28), graph neural (+2.62), federated learning (+2.55), self-attention (+2.36), and language models (+2.31), which appear prominently with the advent of the Transformer (2017), BERT (2018) and the LLM boom (2020). The negative coefficients reflect the unused classical AI terms, such as data mining (-1.83), logic programming (-1.41), and influence diagram (-1.39). For 2007-2011, the classifier shows planning competition, web services and global constraints to be highly characteristic. These appear nowhere on the TextRank's top 10 for this period. This provides direct evidence for the Axis-2 hypothesis that the model trained to distinguish between periods can find unique features for each period, which simple frequency-based methods like TextRank cannot capture.
+Using TF-IDF features and training a logistic regression classifier produces discriminative outputs. For 2017-2021, the positive coefficients correspond to pre-trained (+3.30), deep learning (+3.28), graph neural (+2.62), federated learning (+2.55), self-attention (+2.36), and language models (+2.31), which appear prominently with the advent of the Transformer (2017), BERT (2018) and the LLM boom (2020). The negative coefficients reflect the unused classical AI terms, such as data mining (-1.83), logic programming (-1.41), and influence \\ diagram (-1.39). For 2007-2011, the classifier shows planning competition, web services and global constraints to be highly characteristic. These appear nowhere on the TextRank's top 10 for this period. This provides direct evidence for the Axis-2 hypothesis that the model trained to distinguish between periods can find unique features for each period, which simple frequency-based methods like TextRank cannot capture.
 
 \begin{figure}[ht]
     \centering
