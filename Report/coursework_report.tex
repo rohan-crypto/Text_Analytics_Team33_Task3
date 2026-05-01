@@ -1,39 +1,59 @@
-\documentclass{article}
+\documentclass[11pt]{article}
 
-\usepackage[main, final]{neurips_2026} % using final here because author names were not visible due to neurips_2026 package by default
-
-\usepackage[utf8]{inputenc}
+\usepackage{acl}
+\usepackage{times}
+\usepackage{latexsym}
 \usepackage[T1]{fontenc}
-\usepackage{hyperref}
-\usepackage{url}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{inconsolata}
+\usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{amsfonts}
 \usepackage{nicefrac}
-\usepackage{microtype}
 \usepackage{xcolor}
-\usepackage{graphicx}
-\usepackage{subfig} % for multi-panel figures
+\usepackage{subfig}
+\usepackage{url}
+\usepackage{fancyhdr}
+
+% Figure path for the standalone ACL project folder
 \graphicspath{{figures/}}
+
+\setlength\titlebox{6.5cm}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\footnotesize Github Link: \url{https://github.com/rohan-crypto/Text_Analytics_Team33_Task3}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
 
 \title{How Has AI Research Changed? A Comparative Corpus Analysis of ArXiv Abstracts from 2007 to 2021}
 
 \author{%
-  Nithya Dharshini Uthayasankar \\ 2789572 \And
-  Rohan Bhardwaj \\ 2827658\And
-  Clarence Zhen Jin Tan\\ 2828537 \And
-  Lingjuan Shu \\ 2739919 \And
-  Taojie Chen \\ 2764623 \\ [4pt]
-  Department of Data Science,
-  University of Bristol
+\begin{tabular}{ccc}
+\normalfont Nithya Dharshini Uthayasankar & \normalfont Rohan Bhardwaj & \normalfont Clarence Zhen Jin Tan \\
+\normalfont 2789572 & \normalfont 2827658 & \normalfont 2828537 \\
+\end{tabular}
+\\[0.8em]
+\begin{tabular}{cc}
+\normalfont Lingjuan Shu & \normalfont Taojie Chen \\
+\normalfont 2739919 & \normalfont 2764623 \\
+\end{tabular}
+\\[0.8em]
+\normalfont Department of Data Science \\
+\normalfont University of Bristol
 }
 
 \begin{document}
 \maketitle
+\thispagestyle{fancy}
+\pagestyle{fancy}
 
 \begin{abstract}
 The rapid evolution of research in artificial intelligence, machine learning, and natural language processing over the past two decades makes their scientific literature an important source for monitoring their conceptual and methodological changes over time. However, their changes in research focus, communication and terminologies remain ambiguous. Whether using different analytical methods results in different changes has also not been much explored. This corpus analysis addresses that critical gap by dividing 27,121 ArXiv abstracts published between 2007 and 2021 into three five-year periods and comparing them. A two-axis approach is adopted, comparing text representation methods like TF-IDF, SBERT and LDA, against period-comparison methods Textrank, Logistic Regression classification and Framing heatmap using SBERT. The greatest change is identified between 2012-2016 and 2017-2021, uniform across all five methods with a noticeable shift from probabilistic and logic-based topics to neural and language-based approaches, as identified by LDA. The logistic regression classifier trained on TF-IDF features outperforms TextRank in identifying terminologies with respect to a period. Meanwhile, the framing heatmap produced by SBERT confirms decline from research focused on theory to benchmark-based research. These results are aligned with the shift in AI research after 2017 due to the emergence of the Transformer, BERT, and GPT-3. Different methods show different aspects of change, suggesting that corpus-level temporal analysis requires experimentation with multiple methods. As the literature grows, such analysis enables efficient monitoring and tracking of the scientific evolution over time.
 
-\textbf{Keywords :} ArXiv abstracts, corpus analysis, temporal drift, semantic embeddings, topic modelling
+\textbf{Keywords:} ArXiv abstracts, corpus analysis, temporal drift, semantic embeddings, topic modelling
 \end{abstract}
 
 \section{Introduction}
@@ -52,14 +72,14 @@ To address the aim, this project compares several text analytics approaches that
 \subsection{Pipeline Overview and Baseline}
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.70\linewidth]{Report/figures/Comparative_Corpus_Analysis_Pipeline.png}
+    \includegraphics[width=\linewidth]{figures/Comparative_Corpus_Analysis_Pipeline.png}
     \caption{End-to-end analysis pipeline. Text representations feed into two axes of experimentation: representation type (Axis~1) and period-comparison method (Axis~2).}
     \label{fig:pipeline}
 \end{figure}
 
 Our corpus comes from the \textsc{ArXiv} dataset \cite{arxiv_dataset}, which includes 27{,}121 abstracts of studies on artificial intelligence, machine learning, and natural language processing. We divided these abstracts into three non-overlapping groups based on when they were published: 2007-2011, 2012-2016, and 2017-2021. And these groups had 1{,}268, 5{,}542 and 20{,}311 abstracts respectively. This clearly shows how quickly research is growing in this field, with more and more studies being published every year.
 
-\paragraph{Preprocessing}
+\paragraph{Preprocessing:}
 We preprocessed and cleaned the abstracts before representation. We made them lowercase, tokenised them into individual words and removed common stop-words like "the" and "and" because they do not add much meaning. We also got rid of the punctuation marks. For TF-IDF, we only looked at the 5{,}000 most important features using \texttt{TfidfVectorizer} from \texttt{sklearn}, with both unigram and bigram (n $\in \{1,2\}$). We did not apply stemming because the SBERT models, which we are using, are good at handling morphological variation. Instead, we worked directly with the original text to understand what each sentence means.
 
 \subsection{Axes of Experimentation}
@@ -84,13 +104,6 @@ The corpus is fit to a Latent Dirichlet Allocation~\cite{blei2003latent} (LDA) m
 \subsubsection{PCA Temporal Trajectory (Rohan)}
 To make it easier to visually compare different representations, Principal Component Analysis (PCA) is applied to each one. This includes the TF-IDF matrix and the SBERT embedding matrices, like MiniLM, MPNet, and SPECTER. Each of these is then simplified into its first two principal components, which show the maximum variance. These simplified versions are then plotted on a 2D graph, with colours used to show which time period each point belongs to. The centroids of each period are connected with arrows to show a \emph{temporal trajectory}. This helps us evaluate the first axis. If the periods are clearly separated on the graph, it's easier to interpret what is going on, no matter the distance between the points. The resulting trajectories are shown in Figure~\ref{fig:pca_trajectory} in Section~\ref{sec:evaluation}.
 
-% \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=\linewidth]{Report/figures/PCA_trajectory.png}
-%     \caption{PCA trajectory of research abstracts in TF-IDF space (left) and SBERT-SPECTER space (right). Points are individual abstracts, larger markers are period centroids and arrows show the temporal direction of drift.}
-%     \label{fig:pca_methods}
-% \end{figure}
-
 \subsection{Axis~2: Period-Comparison Methods}
 \textbf{Axis~2 - Period-Comparison Method:} \textit{What comparison method shape and affect the specificity and interpretability of the results?}
 Even with a fixed representation, different comparison strategies may give different qualitative signals. To see that, we compare an inductive, frequency-based approach (TextRank) with a discriminative, supervised approach (a period classifier). Then we enhance the analysis by using SBERT to compare sentences and identify their underlying themes.
@@ -104,20 +117,7 @@ TextRank~\cite{mihalcea-tarau-2004-textrank} is a way to figure out what's impor
 We trained a multinomial logistic regression classifier on the TF-IDF matrix that helps us predict which of three periods an abstract belongs to, based on the words it contains. We train it using 80\% of the abstracts and then test it on the remaining 20\% to see how well it works. The good thing about this approach is that the TF-IDF features are easy to interpret because they are based on the actual words in the abstracts. The classifier gives more weight to words that are unique to a particular period, rather than just words that appear frequently in that period. This helps us identify the words that really distinguish one period from another, which is exactly what we need to detect changes over time.
 \textbf{Hypothesis} When trained with a contrastive objective, the classifier will produce signals that are more focused and more time period specific as compared to TextRank. For instance, the words "pre-trained", "graph neural", and "federated learning" should emerge as good positive discriminators of the time span 2017-2021. On the other hand, older paradigms such as "logic programming" and "influence diagram" will emerge as good negative discriminators for the same period. Results across all three periods are compared in Figure~\ref{fig:axis2_all}.
 
-% \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=\linewidth]{Report/figures/Axis2_comparison3.png}
-%     \caption{Axis 2 comparison for 2017-2021: TextRank top keyphrases (left) versus logistic regression discriminative coefficients (right). Green bars indicate terms strongly predictive of the period; red bars indicate terms strongly predictive against it (i.e., terms that belong to earlier periods).}
-%     \label{fig:pca_methods}
-% \end{figure}
-
 The framing heatmap, developed by Nithya for SBERT, offers a unique perspective that builds on the keyword methods. Instead of focusing on the topics being discussed, it looks at how research is presented and structured, revealing changes in the way ideas are framed over time. For instance, it shows how theoretical approaches have become less prominent, while practical applications have gained more attention across different periods. The heatmap is shown in Figure~\ref{fig:framing_heatmap}.
-% \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=\linewidth]{Report/figures/SBERT_framing_heatmap.png}
-%     \caption{SBERT framing similarity heatmap. Each cell is the cosine similarity between the period centroid embedding and a hand-crafted archetype sentence. Darker shading indicates higher similarity.}
-%     \label{fig:pca_methods}
-% \end{figure}
 
 \subsection{Summary of Design Choices}
 
@@ -151,49 +151,30 @@ SBERT Framing Heatmap             & Nithya   & 2      & CosDist to archetype \\
 \subsection{Performance Metrics}
 We evaluated each method on three related performance metrics, because no definitive answer exists as the correct temporal change for an unsupervised corpus analysis.
 
-\paragraph{Centroid cosine distance} 
+\paragraph{Centroid cosine distance:} 
 For TF-IDF and SBERT, we compute the cosine distance between centroids in consecutive periods. For LDA we look up in the pre-calculated pairwise distance matrix (\texttt{lda\_centroid\_dist[i][j]}) and extract the Euclidean distance between consecutive period centroids in 12-dimensional topic-proportion space. Larger distance implies more quantifiable change between periods. \emph{Limitation:} The raw value is only comparable between methods of the same type (both TF-IDF), as different embedding spaces will have different geometries. Centroid shift may not represent general drift but may be caused by a single outlying sub-corpus in a single period.
 
-\paragraph{Silhouette score}
+\paragraph{Silhouette score:}
 For each abstracted period, the silhouette score~\cite{rousseeuw1987silhouettes} measures how well each abstract fits its own period cluster when compared to the nearest alternative period. Values near $+1$ indicate well-separated clusters and very tight periods, $0$ implies overlapping clusters, and a negative value suggests that the abstract was fit to the incorrect period cluster. \emph{Limitation:} The score may be skewed if the clusters have an imbalance (the corpus is strongly dominated by 2017-2021, $n{=}20{,}311$) and it will score global separation over gradual change.
 
-\paragraph{Interpretability}
+\paragraph{Interpretability:}
 For Axis-2, we compare each pair of abstract terms and qualitatively assess whether the top-ranking terms are period-specific or generic. Higher scores for methods that produce period-specific term suggestions over common words across periods.
 
 \subsection{Experimental Setup}
 
-\paragraph{Dataset splits}
+\paragraph{Dataset splits:}
 The 27,121 abstracts are split into three consecutive non-overlapping time periods of 2007-2011 (n=1,268), 2012-2016 (n=5,542) and 2017-2021 (n=20,311). The dates for the period splits were chosen to coincide with well-known milestones in AI/ML research. The start date of the "deep learning wave", defined as when AlexNet achieved significant performance, is 2012; the second time boundary is around the Transformer paper and the introduction of BERT in 2017-2018; and GPT-3, introduced in 2020, falls within the third period. All abstracts were part of unsupervised analyses (TF-IDF centroids, SBERT embeddings, LDA and TextRank). A stratified split into a training set (80\% of data) and a testing set (20\% of data) was performed to preserve the proportion of the periods in the dataset for the period classifier (Section~\ref{sec:classifier}).
 
-\paragraph{Hyperparameters}
+\paragraph{Hyperparameters:}
 TF-IDF was implemented with unigrams and bigrams up to a maximum of 5,000 terms (\texttt{sklearn} \texttt{TfidfVectorizer}). We used SBERT models as they are without fine-tuning: MiniLM (\texttt{all-MiniLM-L6-v2}) of 384-d, MPNet (\texttt{all-mpnet-base-v2}) of 768-d, and SPECTER~\cite{specter2020cohan} of 768-d. LDA was fit with K=12 topics, which were determined based on held-out perplexity. The logistic regression classifier was fit with an $\ell_2$ penalty using $C=1$ (the default in \texttt{sklearn}). TextRank was run on each document individually using a 4-token co-occurrence window, and document phrase scores were then averaged over all documents for a given time period.
 
-\paragraph{Libraries}
+\paragraph{Libraries:}
 Text representation methods for \texttt{sklearn}~\cite{sklearn} TF-IDF and LDA; \texttt{sentence-transformers}~\cite{reimers-gurevych-2019-sentence} for SBERT; \texttt{pytextrank} for TextRank. Dimensionality reduction methods: \texttt{sklearn} PCA. Evaluation metrics: \texttt{sklearn} silhouette scorer and \texttt{scipy} for distance metrics.
 
 \subsection{Results}
 
 \subsubsection{Axis~1: Centroid Distance}
 Table~\ref{tab:centroid_distances_and_silhouette_score} and Figure~\ref{fig:centroid_bar} report centroid distances between successive periods for all five representations.
-% \begin{table}[ht]
-% \centering
-% \caption{Centroid distances between successive temporal periods. TF-IDF and SBERT use cosine distance; LDA uses Euclidean distance in topic-proportion space. Mean shift = average across both transitions.}
-% \label{tab:centroid_distances}
-% \resizebox{\linewidth}{!}{%
-% \begin{tabular}{lccc}
-% \toprule
-% \textbf{Method} & \textbf{2007--11 $\to$ 2012--16} &
-%                   \textbf{2012--16 $\to$ 2017--21} &
-%                   \textbf{Mean shift} \\
-% \midrule
-% TF-IDF (bigram, $V{=}5000$) & 0.2595 & 0.2889 & 0.2742 \\
-% SBERT MiniLM                 & 0.0461 & 0.1221 & 0.0841 \\
-% SBERT MPNet                  & 0.0500 & 0.1388 & 0.0944 \\
-% SBERT SPECTER                & 0.0055 & 0.0298 & 0.0177 \\
-% LDA ($K{=}12$)               & 0.0270 & 0.2733 & 0.1502 \\
-% \bottomrule
-% \end{tabular}}
-% \end{table}
 
 \begin{table}[ht]
 \centering
@@ -215,7 +196,7 @@ LDA ($K{=}12$)               & 0.0270 & 0.2733 & 0.1502 & 0.0029 \\
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\linewidth]{Report/figures/axis1_grouped_bar_chart.png}
+    \includegraphics[width=\linewidth]{figures/axis1_grouped_bar_chart.png}
     \caption{Centroid distances between consecutive period pairs for all five methods. Blue bars = 2007-2011 to 2012-2016 transition; red bars = 2012-2016 to 2017-2021 transition. Every method records a larger shift in the second transition.}
     \label{fig:centroid_bar}
 \end{figure}
@@ -225,49 +206,18 @@ The most remarkable single finding is LDA's near-zero first-transition distance 
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\linewidth]{Report/figures/axis1_transition_year_range_comparison.png}
+    \includegraphics[width=\linewidth]{figures/axis1_transition_year_range_comparison.png}
     \caption{Difference in centroid distance between the two transitions (second minus first) for each method. All bars confirm the 2012-2016 to 2017-2021 transition was larger across every representation type. LDA shows the greatest relative difference (+0.2463).}
     \label{fig:transition_diff}
 \end{figure}
-% Combining to save space.
-% \begin{figure}[ht]
-%     \centering
-%     \subfloat[Centroid distances per transition]{%
-%         \includegraphics[width=0.48\linewidth]{Report/figures/axis1_grouped_bar_chart.png}
-%         \label{fig:centroid_bar}}
-%     \hfill
-%     \subfloat[Difference between transitions]{%
-%         \includegraphics[width=0.48\linewidth]{Report/figures/axis1_transition_year_range_comparison.png}
-%         \label{fig:transition_diff}}
-%     \caption{Axis~1 centroid distance results. (a) Distances between consecutive period pairs for all five methods; blue = first transition, red = second. (b) Difference (second minus first) confirming the 2012--2016 to 2017--2021 transition is larger across every method.}
-%     \label{fig:centroid_combined}
-% \end{figure}
 
 \subsubsection{Axis~1: Silhouette Scores}
 
 Table~\ref{tab:centroid_distances_and_silhouette_score} and Figure~\ref{fig:silhouette} report overall silhouette scores for all five representations.
 
-% \begin{table}[ht]
-% \centering
-% \caption{Silhouette scores measuring separation of the three temporal periods in each representation space. Higher is better.}
-% \label{tab:silhouette}
-% \begin{tabular}{lll}
-% \toprule
-% \textbf{Method} & \textbf{Silhouette Score} &
-%                   \textbf{Representation type} \\
-% \midrule
-% TF-IDF           & 0.0015 & vocabulary \\
-% SBERT MiniLM     & 0.0541 & semantic embedding \\
-% SBERT MPNet      & 0.0559 & semantic embedding \\
-% SBERT SPECTER    & 0.0172 & semantic embedding \\
-% LDA ($K{=}12$)   & 0.0029 & topic distribution \\
-% \bottomrule
-% \end{tabular}
-% \end{table}
-
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.85\linewidth]{Report/figures/silhouette_score.png}
+    \includegraphics[width=\linewidth]{figures/silhouette_score.png}
     \caption{Silhouette scores for all five representations. Red = TF-IDF (vocabulary-based); blue = SBERT variants (semantic embedding); green = LDA (topic distribution). SBERT MPNet achieves the highest period separability.}
     \label{fig:silhouette}
 \end{figure}
@@ -280,7 +230,7 @@ SPECTER underperformed the other SBERT models (0.0172), unlike what we had predi
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\linewidth]{Report/figures/PCA_trajectory.png}
+    \includegraphics[width=\linewidth]{figures/PCA_trajectory.png}
     \caption{PCA trajectory plots for TF-IDF (left) and SBERT-SPECTER (right). Each point is an individual abstract, colour-coded by period. Larger markers are period centroids; arrows show the direction of temporal drift. The TF-IDF centroid displacement along PC~1 is visibly larger than in SBERT-SPECTER space.}
     \label{fig:pca_trajectory}
 \end{figure}
@@ -292,32 +242,18 @@ The large amount of overlap between individual clouds in both spaces confirms ou
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\linewidth]{Report/figures/axis1_lda_topic_distribution.png}
+    \includegraphics[width=\linewidth]{figures/axis1_lda_topic_distribution.png}
     \caption{Stacked bar chart of LDA topic proportions per period. Each colour represents one of the 12 topics, labelled by its three most probable words. The shift from 2012-2016 to 2017-2021 is the dominant transition.}
     \label{fig:lda_topics}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\linewidth]{Report/figures/LDA_topics_shift.png}
+    \includegraphics[width=\linewidth]{figures/LDA_topics_shift.png}
     \caption{Net change in LDA topic proportion from 2007-2011 to 2017-2021. Green bars = rising topics; red bars = declining topics. T4 (search/optimisation/optimal) and 
     T10 (inference/logic/probabilistic) show the largest declines; T9 (language/translation/languages) and T8 (neural/network/networks) show the largest rises.}
     \label{fig:lda_change}
 \end{figure}
-% Here, we are combining 2 figures to fit number of pages
-% \begin{figure}[ht]
-%     \centering
-%     \subfloat[Topic proportions per period]{%
-%         \includegraphics[width=0.48\linewidth]{Report/figures/axis1_lda_topic_distribution.png}
-%         \label{fig:lda_topics}}
-%     \hfill
-%     \subfloat[Net topic change 2007-2011 to 2017-2021]{%
-%         \includegraphics[width=0.48\linewidth]{Report/figures/LDA_topics_shift.png}
-%         \label{fig:lda_change}}
-%     \caption{LDA topic analysis. (a) Stacked bar chart of topic proportions per period; each colour is one of 12 topics labelled by its three most probable words. (b) Net change in topic proportion: green = rising, red = declining. T4 (search/optimisation/optimal) and 
-%     T10 (inference/logic/probabilistic) show the largest declines; T9 (language/translation/languages) and T8 (neural/network/networks) show the largest rises.}
-%     \label{fig:lda_combined}
-% \end{figure}
 
 The LDA topic model produces the strongest qualitative description of \emph{what} changed. The topics Figure~\ref{fig:lda_topics} of search/optimisation/optimal (T4) and inference/logic/probabilistic (T10), which dominated 2007--2011 largely disappeared by 2017-2021 (shown in Figure \ref{fig:lda_change}). This directly shows the decline of traditional AI technologies - constraint satisfaction, logic programming, and Bayesian networks, in favour of an end-to-end neural approach. The most prominent changes are the emergence of the neural/network/networks topic (T8), language/translation/languages topic (T9), and question/dialogue/generation topic (T6). T9's increased prominence is quite evident as it was driven by neural machine translation (2016) and the emergence of BERT (2018) and GPT-3 (2020) during or just prior to the 2017-2021 time period. These transitions in topic distribution are invisible to both TF-IDF and SBERT centroid analysis and highlight the unique benefit of LDA, as it identified \emph{what} changed rather than just \emph{how much} changed.
 
@@ -326,14 +262,15 @@ The LDA topic model produces the strongest qualitative description of \emph{what
 \begin{figure}[ht]
     \centering
     \subfloat[2007--2011]{%
-        \includegraphics[width=0.32\linewidth]{Report/figures/Axis2_comparison1.png}
+        \includegraphics[width=0.90\linewidth]{figures/Axis2_comparison1.png}
         \label{fig:axis2_2007}}
+    \hfill
     \subfloat[2012--2016]{%
-        \includegraphics[width=0.33\linewidth]{Report/figures/Axis2_comparison2.png}
+        \includegraphics[width=0.90\linewidth]{figures/Axis2_comparison2.png}
         \label{fig:axis2_2012}}
     \hfill
     \subfloat[2017--2021]{%
-        \includegraphics[width=0.32\linewidth]{Report/figures/Axis2_comparison3.png}
+        \includegraphics[width=0.90\linewidth]{figures/Axis2_comparison3.png}
         \label{fig:axis2_2017}}
     \caption{Axis~2 comparison for all three periods. Left panel of each subfigure: TextRank top keyphrases. Right panel: logistic regression discriminative coefficients. Green bars = terms strongly predictive \emph{of} that period; red bars = terms strongly predictive \emph{against} it. The contrast between the two methods is most pronounced in 2017--2021, where the classifier uniquely identifies 
     "pre-trained" (+3.30), "graph neural" (+2.62), and "federated learning" (+2.55).}
@@ -346,7 +283,7 @@ Using TF-IDF features and training a logistic regression classifier produces dis
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\linewidth]{Report/figures/SBERT_framing_heatmap.png}
+    \includegraphics[width=\linewidth]{figures/SBERT_framing_heatmap.png}
     \caption{SBERT framing similarity heatmap. Each cell is the cosine similarity between the period centroid embedding and a hand-crafted framing archetype sentence. The theoretical framing declines most clearly from 2007--2011 (0.717) to 2017--2021 (0.646), while state-of-the-art remains stable, suggesting a shift from theoretically-framed to benchmark-driven research.}
     \label{fig:framing_heatmap}
 \end{figure}
@@ -355,30 +292,30 @@ Figure~\ref{fig:framing_heatmap} shows that the framing heatmap shows another in
 
 \subsection{Error Analysis}
 
-\paragraph{Corpus imbalance and TF-IDF.}
+\paragraph{Corpus imbalance and TF-IDF:}
 The 2017-2021 data is 16 times larger than the 2007-2011 data. Since the centroids of the periods are simple averages and the 2017-2021 period's cohort greatly outnumbers all others, the mean of the period's centroid significantly biases the global TF-IDF mean. Cosine distance involving an early period may therefore be deflated, suggesting it is closer than it appears to another early period or to the global mean. This also aligns with the very low silhouette score for TF-IDF (0.0015). Given that the within-period TF-IDF is an average across vastly different, sparse vocabularies, a period's centroid would make a very poor summary of that period's vocabulary distribution. Thus, it causes high within-period variance. In future work, it might be worth doing an experiment with normalised or resampled centroids that try to account for this imbalance.
 
-\paragraph{Near-zero first transition for LDA}
+\paragraph{Near-zero first transition for LDA:}
 The centroid distance of 0.0270 between the 2007-2011 and 2012-2016 periods is unexpectedly small.  A rapid shift in terminology after 2016 would be expected. It may simply be a statistical anomaly driven by a lack of data. The small 2007--2011 cohort (n=$1{,}268$) might be leading to an unstable, possibly noisy centroid that will always converge towards the corpus mean. Or, it is possible that the deep learning revolution simply has not been reflected in the language of abstracts until later on in time, and there is genuinely significant thematic overlap between these two early periods. It is interesting that this cluster of periods also has very low silhouette scores, 0.0029 for LDA and 0.0015 for TF-IDF, supporting the interpretation that many topics overlap between all three periods.
 
-\paragraph{Generic terms for TextRank}
+\paragraph{Generic terms for TextRank:}
 A number of the top keyphrases, like 'machine learning', 'natural language processing' and 'proposed method', are too generic for the domain of AI abstracts, so they may be more numerous but do not indicate much about change in themes. TextRank might perform better with a contrastive version that down-weights common terms in order to focus on the differences, but that would defeat its unsupervised nature.
 
-\paragraph{Classifier on TF-IDF features only}
+\paragraph{Classifier on TF-IDF features only:}
 It should be noted that the period classifier was only used on the TF-IDF features. Applying the same discriminative training to SBERT embeddings would help to test whether dense vector representations produce more interpretable or accurate period signals. This can be included in future work.
 
-\paragraph{Variance compression for SBERT framing heatmap}
+\paragraph{Variance compression for SBERT framing heatmap:}
 All values are within the narrow range of 0.645 - 0.737, so the absolute difference between any two is relatively small, although the direction of change is still very meaningful. This is an inherent limitation of using cosine similarity in dense high-dimensional space. The high dimensionality has resulted in most vectors being nearly equidistant. So, it can be interpreted that, when looking at the heatmap, the relative difference is more meaningful than the absolute difference.
 
 \subsection{Discussion}
 
-\paragraph{Consistency and robustness (Axis-1)}
+\paragraph{Consistency and robustness (Axis-1):}
 All five representations have an agreement in regard to direction of drift, which states that 2012-2016 to 2017-2021 is greater than 2007-2011 to 2012-2016, and shows steady improvement. This convergence among fundamentally different methods of sparse frequency counts, dense semantic vectors, and probabilistic topic proportions suggests that the change is real, and not some characteristic of just one method.
 
-\paragraph{Interpretability trade-off (Axis-1)}
+\paragraph{Interpretability trade-off (Axis-1):}
 TF-IDF offers the highest interpretability because words in the vocabulary explicitly state what has changed. SBERT is highest at understanding meaning as it can still see the topical continuity even when different terminology is used. LDA provides the highest level of structure by revealing underlying themes, but loses a degree of interpretability, given that topics must be identified based on keyword lists. PCA trajectory demonstrates geometric integrity among all three methods, with TF-IDF showing the largest centroid displacement, and SBERT-SPECTER the smallest, clustered centroid.
 
-\paragraph{Specificity vs.\ generality (Axis-2)}
+\paragraph{Specificity vs.\ generality (Axis-2):}
 Classifier greatly outperforms TextRank in terms of period specificity. Its terms with the top-weight are specific to a single period, while TextRank includes across-period general terms. Classifier requires labelled periods and a discriminative claim about what \emph{differentiates} periods, whereas TextRank makes a generative claim about what periods are \emph{characterised} by. They are therefore complementary perspectives. The SBERT framing heatmap shows a third, orthogonal angle as it focuses on how things are expressed, instead of topical content, using purely semantic analysis.
 
 \paragraph{Limitations}
@@ -393,7 +330,6 @@ Although these findings were observed, the experimental process revealed several
 Several challenges remain in studying the evolution of this field. Firstly, although our findings suggest a significant shift after 2017, our methodology cannot explain why this shift occurred. It is unclear whether this change was driven by a few influential papers or represents a broader trend across the research community. Secondly, analysing abstracts alone has its limitations. Authors often write abstracts with the aim of attracting readers. Therefore, abstracts may not fully reflect the methods actually employed in the full text. Finally, splitting the timeline into three five‑year periods is somewhat arbitrary.Analyzing the data year by year may provide a more accurate picture of the exact moment when new trends emerge.
 As research into AI accelerates, automated tools for tracking the evolution of concepts and vocabulary will become increasingly important for scholars who need to conduct research in the fast-expanding literature.
 
-\bibliographystyle{unsrt}
 \bibliography{references}
 
 \end{document}
