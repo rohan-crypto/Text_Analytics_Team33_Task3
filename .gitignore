@@ -28,11 +28,11 @@ build/
 dist/
 *.egg-info/
 
-
 # Temporary files
 *.tmp
 *.swp
 
-# make sure .gitignore has this
 *.pkl
 *.npy
+
+*.csv
