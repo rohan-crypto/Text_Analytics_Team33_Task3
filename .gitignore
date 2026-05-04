@@ -33,3 +33,6 @@ dist/
 *.swp
 
 *.pkl
+
+!INTEGRATION_CODE/*.npy
+!INTEGRATION_CODE/*.csv

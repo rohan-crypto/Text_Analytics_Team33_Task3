@@ -28,10 +28,11 @@ The project addresses two research questions:
 ---
 
 ## Project Management
-Trello Link : 
+### Trello Board
+![Trello Board](Images/Trello_board.jpeg)
 
-### Timeful Links
-
+### Timeful
+![Timeful](Images/Timeful.jpeg)
 
 ## Repository Structure
 
@@ -90,7 +91,7 @@ pip install -r requirements.txt
 
 The dataset is the [gfissore/arxiv-abstracts-2021](https://huggingface.co/datasets/gfissore/arxiv-abstracts-2021) corpus from HuggingFace. A loading script is provided in the notebook.
 
-### Running the Notebook
+### Running the Integarated Notebook
 
 Open and run `Final_Integration_code.ipynb` end-to-end. The notebook is structured in sections matching the report:
 
@@ -104,6 +105,18 @@ Open and run `Final_Integration_code.ipynb` end-to-end. The notebook is structur
 8. Evaluation: silhouette scores, centroid distance comparison, figure generation
 
 All figures are saved to `Report/figures/` automatically.
+
+---
+
+### Run individual notebooks or scripts in this order, if needed:
+
+load_data.py — loads and filters the ArXiv dataset
+preprocessing.py — cleans and tokenises the abstracts, and saves data_preprocessed.pkl
+Notebooks/Chen/ — for TF-IDF representation
+Notebooks/Nithya/ — for SBERT embeddings
+Notebooks/Rohan/ — for PCA visualisation
+Notebooks/Clarence/ — for TextRank keyword extraction
+Notebooks/Shu/ — for LDA topic modelling
 
 ---
 
