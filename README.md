@@ -19,8 +19,8 @@ The project addresses two research questions:
 
 | Name | Contribution |
 |---|---|
-| Nithya Dharshini Uthayasankar | SBERT embeddings, framing heatmap (Axis 1 & 2) |
-| Rohan Bhardwaj | PCA temporal trajectory (Axis 1) |
+| Nithya Dharshini Uthayasankar | SBERT embeddings and heatmap, code integration (Axis 1 & 2) |
+| Rohan Bhardwaj | Data preprocessing, PCA temporal trajectory (Axis 1) |
 | Clarence Zhen Jin Tan | TextRank keyword extraction (Axis 2) |
 | Lingjuan Shu | LDA topic modelling (Axis 1) |
 | Taojie Chen | TF-IDF representation, period classifier (Axis 1 & 2) |
