@@ -110,19 +110,19 @@ All figures are saved to `Report/figures/` automatically.
 
 ### Run individual notebooks or scripts in this order, if needed:
 
-load_data.py — loads and filters the ArXiv dataset
-preprocessing.py — cleans and tokenises the abstracts, and saves data_preprocessed.pkl
-Notebooks/Chen/ — for TF-IDF representation
-Notebooks/Nithya/ — for SBERT embeddings
-Notebooks/Rohan/ — for PCA visualisation
-Notebooks/Clarence/ — for TextRank keyword extraction
-Notebooks/Shu/ — for LDA topic modelling
+1. load_data.py — loads and filters the ArXiv dataset
+2. preprocessing.py — cleans and tokenises the abstracts, and saves data_preprocessed.pkl
+3. Notebooks/Chen/ — for TF-IDF representation
+4. Notebooks/Nithya/ — for SBERT embeddings
+5. Notebooks/Rohan/ — for PCA visualisation
+6. Notebooks/Clarence/ — for TextRank keyword extraction
+7. Notebooks/Shu/ — for LDA topic modelling
 
 ---
 
 ## Report
 
-The group report is written in LaTeX using the NeurIPS 2026 template.
+The group report is written in LaTeX using the ACL template.
 
 ### If compiling locally:
 ```bash
