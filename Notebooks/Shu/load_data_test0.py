@@ -12,14 +12,12 @@ def load_arxiv_data(sample_n=2000, random_state=42):
             return 2000 + yy if yy < 90 else 1900 + yy
         return None
 
-    # 用 streaming 避免一下子加载整个 200 万数据
     ds = load_dataset(
         "gfissore/arxiv-abstracts-2021",
         split="train",
         streaming=True
     )
 
-    # 打乱，避免只拿到数据集最前面那一段
     ds = ds.shuffle(seed=random_state, buffer_size=10000)
 
     rows = []
